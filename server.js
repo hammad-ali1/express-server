@@ -5,7 +5,7 @@ const todosRouter = require("./routes/todos.routes");
 const usersRouter = require("./routes/users.routes");
 require("dotenv").config();
 
-const port = process.env.port || 5000;
+const port = process.env.PORT || 5000;
 
 const app = express();
 
