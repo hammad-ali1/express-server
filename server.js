@@ -31,5 +31,9 @@ connection.once("open", () => {
 app.use("/api/todos", todosRouter);
 app.use("/api/users", usersRouter);
 
+app.get("/", (req, res) => {
+  res.send("Hammad's server");
+});
+
 //listen on port
 app.listen(port, () => console.log(`server listening on port ${port}`));
