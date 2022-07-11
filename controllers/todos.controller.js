@@ -5,7 +5,7 @@ const getTodos = asyncHandler(async (req, res) => {
   try {
     const userId = req.user._id;
     const todos = await Todo.find();
-    res.status(200).json({ success: true, data: todos });
+    res.status(200).json({ success: true, todos: todos });
   } catch (err) {
     console.log(err);
     res.status(400).json({
@@ -29,9 +29,7 @@ const addTodo = asyncHandler(async (req, res) => {
       task,
     });
     if (newTodo) {
-      return res
-        .status(201)
-        .json({ success: true, data: { task: newTodo.task } });
+      return res.status(201).json({ success: true, task: newTodo.task });
     }
   } catch (err) {
     console.log(err);

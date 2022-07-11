@@ -28,10 +28,9 @@ const addUser = asyncHandler(async (req, res) => {
       if (newUser) {
         res.status(201).json({
           success: true,
-          data: {
+          user: {
             userid: newUser.userid,
             username: newUser.username,
-            hash: newUser.password,
             token: generateToken(newUser._id),
           },
         });
@@ -81,7 +80,7 @@ const getUser = (req, res) => {
   const { _id, userid, username } = req.user;
   res.status(200).json({
     success: true,
-    data: { _id, userid, username },
+    user: { _id, userid, username },
   });
 };
 //generate JWT
