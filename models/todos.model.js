@@ -5,6 +5,7 @@ const todoSchema = new Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, rquired: true, ref: "User" },
     task: { type: String, required: true },
+    title: { type: String, default: "Title" },
   },
   {
     timestamps: true,

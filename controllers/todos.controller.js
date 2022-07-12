@@ -18,7 +18,7 @@ const getTodos = asyncHandler(async (req, res) => {
 const addTodo = asyncHandler(async (req, res) => {
   try {
     const user = req.user._id;
-    const { task } = req.body;
+    const { task, title } = req.body;
     if (!task) {
       return res
         .send(400)
@@ -27,9 +27,12 @@ const addTodo = asyncHandler(async (req, res) => {
     const newTodo = await Todo.create({
       user,
       task,
+      title,
     });
     if (newTodo) {
-      return res.status(201).json({ success: true, task: newTodo.task });
+      return res
+        .status(201)
+        .json({ success: true, task: newTodo.task, title: newTodo.title });
     }
   } catch (err) {
     console.log(err);
