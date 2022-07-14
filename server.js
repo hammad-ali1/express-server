@@ -1,18 +1,16 @@
 const express = require("express");
-const cors = require("cors");
+const app = express();
 const mongoose = require("mongoose");
+const server = require("http").createServer(app);
+const cors = require("cors");
+const { io } = require("./modules/mySocket")(server);
+
+//routers
 const todosRouter = require("./routes/todos.routes");
 const usersRouter = require("./routes/users.routes");
-const { Server } = require("socket.io");
 require("dotenv").config();
 
 const port = process.env.PORT || 5000;
-const app = express();
-//listen on port
-const server = app.listen(port, () =>
-  console.log(`server listening on port ${port}`)
-);
-const io = new Server(server);
 
 //add middlewares
 app.use(cors());
@@ -40,7 +38,5 @@ app.get("/", (req, res) => {
   res.send("Hammad's server");
 });
 
-//socket io logic
-io.on("connection", (socket) => {
-  console.log("a user connected");
-});
+//listen on port
+server.listen(port, () => console.log(`server listening on port ${port}`));
