@@ -34,6 +34,12 @@ connection.once("open", () => {
 app.use("/api/todos", todosRouter);
 app.use("/api/users", usersRouter);
 
+const { getAllUsers } = require("./modules/socketUsers");
+
+app.get("/api/online", (req, res) => {
+  res.send(getAllUsers());
+});
+
 app.get("/", (req, res) => {
   res.send("Hammad's server");
 });
