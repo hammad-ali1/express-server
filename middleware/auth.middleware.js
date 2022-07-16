@@ -34,15 +34,16 @@ const protect = asyncHandler(async (req, res, next) => {
 });
 
 const protectSocket = async (socket, next) => {
-  // const token = socket.handshake.auth.token;
   const token =
+    socket.handshake.auth.token ||
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyY2MwNmJjNDRkMDE4MmU1YjIzNjcyNCIsImlhdCI6MTY1NzkxMTMzMCwiZXhwIjoxNjU4Nzc1MzMwfQ.dyH2fV92WTHO5hQwmuUtczaQH8rPlKPQklTsii05vno";
-  //verify token
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       //get user from token
       socket.user = await User.findById(decoded.id).select("-password");
+      socket.user._doc.socketId = socket.id;
+      socket.user._doc.rooms = [];
       return next();
     } catch (err) {
       console.log(err);

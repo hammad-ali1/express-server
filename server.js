@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const server = require("http").createServer(app);
 const cors = require("cors");
-const { io } = require("./modules/mySocket")(server);
+const { io, getAllUsers, getRoomUsers } = require("./modules/mySocket")(server);
 
 //routers
 const todosRouter = require("./routes/todos.routes");
@@ -34,10 +34,11 @@ connection.once("open", () => {
 app.use("/api/todos", todosRouter);
 app.use("/api/users", usersRouter);
 
-const { getAllUsers } = require("./modules/socketUsers");
-
 app.get("/api/online", (req, res) => {
   res.send(getAllUsers());
+});
+app.get("/api/online/room", (req, res) => {
+  res.send(getRoomUsers("GAME"));
 });
 
 app.get("/", (req, res) => {
