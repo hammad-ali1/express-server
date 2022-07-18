@@ -15,7 +15,7 @@ module.exports = function (io, socket) {
   socket.on("join-room", ({ roomId }, callback) => {
     console.log("Room request");
     socket.join(roomId);
-    socket.user._doc.rooms.push(roomId);
+    socket.user.rooms.push(roomId);
     io.to(roomId).emit("refresh-room-users", getRoomUsers(roomId));
     // callback({ msg: "Success" });
   });
@@ -23,9 +23,7 @@ module.exports = function (io, socket) {
   socket.on("leave-room", (roomId) => {
     console.log("Leaving Room of id " + roomId);
     socket.leave(roomId);
-    socket.user._doc.rooms = socket.user._doc.rooms.filter(
-      (room) => room !== roomId
-    );
+    socket.user.rooms = socket.user.rooms.filter((room) => room !== roomId);
     io.to(roomId).emit("refresh-room-users", getRoomUsers(roomId));
   });
   //send message in a room
@@ -40,15 +38,15 @@ module.exports = function (io, socket) {
     const socketToInvite = io.sockets.sockets.get(socketId);
     if (socketToInvite) {
       socketToInvite.join(roomId);
-      socketToInvite.user._doc.rooms.push(roomId);
+      socketToInvite.user.rooms.push(roomId);
       socketToInvite.emit("room-invite", { roomId });
       io.to(roomId).emit("refresh-room-users", getRoomUsers(roomId));
     }
   });
   socket.on("disconnect", () => {
     console.log("Leaving All Rooms");
-    console.log(socket.user._doc.rooms);
-    const roomsToLeave = socket.user._doc.rooms;
+    console.log(socket.user.rooms);
+    const roomsToLeave = socket.user.rooms;
     roomsToLeave.forEach((room) => {
       io.to(room).emit("refresh-room-users", getRoomUsers(room));
     });

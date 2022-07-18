@@ -41,9 +41,10 @@ const protectSocket = async (socket, next) => {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       //get user from token
-      socket.user = await User.findById(decoded.id).select("-password");
-      socket.user._doc.socketId = socket.id;
-      socket.user._doc.rooms = [];
+      const userFetched = await User.findById(decoded.id).select("-password");
+      socket.user = { ...userFetched._doc };
+      socket.user.socketId = socket.id;
+      socket.user.rooms = [];
       return next();
     } catch (err) {
       console.log(err);
