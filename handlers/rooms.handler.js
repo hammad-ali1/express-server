@@ -12,12 +12,16 @@ module.exports = function (io, socket) {
     }
   };
   //join a room
-  socket.on("join-room", ({ roomId }, callback) => {
+  socket.on("join-room", ({ roomId }) => {
     console.log("Room request");
     socket.join(roomId);
     socket.user.rooms.push(roomId);
     io.to(roomId).emit("refresh-room-users", getRoomUsers(roomId));
-    // callback({ msg: "Success" });
+    socket.emit("update-roomid", { roomId });
+  });
+  //reject room invite
+  socket.on("room-invite-reject", ({ roomId, msg }) => {
+    io.to(roomId).emit("room-invite-reject", { msg });
   });
   //leave a room
   socket.on("leave-room", (roomId) => {
@@ -42,6 +46,10 @@ module.exports = function (io, socket) {
       socketToInvite.emit("room-invite", { roomId });
       io.to(roomId).emit("refresh-room-users", getRoomUsers(roomId));
     }
+  });
+
+  socket.on("open-main-snackbar", ({ roomId, message, buttons }) => {
+    io.to(roomId).emit("open-main-snackbar", { message, buttons });
   });
 
   socket.on("disconnect", () => {
