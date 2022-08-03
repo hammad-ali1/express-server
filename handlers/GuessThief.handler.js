@@ -17,5 +17,8 @@ module.exports = function (io, socket) {
   socket.on("finish-game", ({ roomId }) => {
     io.to(roomId).emit("finish-game");
   });
+  socket.on("show-cards", ({ show, roomId }) => {
+    io.to(roomId).emit("show-cards", { show });
+  });
   return {};
 };
