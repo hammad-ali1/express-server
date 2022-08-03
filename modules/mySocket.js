@@ -11,6 +11,7 @@ module.exports = function (server) {
     require("../handlers/rooms.handler")(io, socket);
     const { getAllUsers } = require("../handlers/users.handler")(io, socket);
     require("../handlers/TTTGame.handler")(io, socket);
+    require("../handlers/GuessThief.handler")(io, socket);
     io.emit("new-users", getAllUsers());
 
     //send message to all

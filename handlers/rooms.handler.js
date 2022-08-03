@@ -43,12 +43,14 @@ module.exports = function (io, socket) {
       io.to(roomId).emit("refresh-room-users", getRoomUsers(roomId));
     }
   });
+
   socket.on("disconnect", () => {
     console.log("Leaving All Rooms");
     console.log(socket.user.rooms);
     const roomsToLeave = socket.user.rooms;
     roomsToLeave.forEach((room) => {
       io.to(room).emit("refresh-room-users", getRoomUsers(room));
+      io.to(room).emit("room-user-left");
     });
   });
   //get users in a room
