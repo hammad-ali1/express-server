@@ -20,5 +20,9 @@ module.exports = function (io, socket) {
   socket.on("show-cards", ({ show, roomId }) => {
     io.to(roomId).emit("show-cards", { show });
   });
+  socket.on("open-snackbar", ({ message, roomId }) => {
+    console.log(message);
+    io.to(roomId).emit("open-snackbar", { message });
+  });
   return {};
 };
