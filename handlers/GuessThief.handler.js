@@ -3,8 +3,9 @@ module.exports = function (io, socket) {
     io.to(roomId).emit("refresh-cards", { newCards });
   });
 
-  socket.on("start-GuessThief", ({ roomId }) => {
-    io.to(roomId).emit("start-GuessThief");
+  socket.on("start-GuessThief", ({ roomId, roundLimit }) => {
+    console.log("round limit received: " + roundLimit);
+    io.to(roomId).emit("start-GuessThief", { roundLimit });
   });
 
   socket.on("update-points", ({ newPoints, roomId }) => {
@@ -21,8 +22,11 @@ module.exports = function (io, socket) {
     io.to(roomId).emit("show-cards", { show });
   });
   socket.on("open-snackbar", ({ message, roomId }) => {
-    console.log(message);
     io.to(roomId).emit("open-snackbar", { message });
+  });
+  socket.on("update-round-limit", ({ roomId, newRoundLimit }) => {
+    console.log("updating round limit to: " + newRoundLimit);
+    io.to(roomId).emit("update-round-limit", { newRoundLimit });
   });
   return {};
 };

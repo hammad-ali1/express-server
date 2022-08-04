@@ -52,13 +52,16 @@ module.exports = function (io, socket) {
     io.to(roomId).emit("open-main-snackbar", { message, buttons });
   });
 
+  socket.on("clean-room", ({ roomId }) => {
+    io.in(roomId).socketsLeave(roomId);
+  });
+
   socket.on("disconnect", () => {
     console.log("Leaving All Rooms");
     console.log(socket.user.rooms);
     const roomsToLeave = socket.user.rooms;
     roomsToLeave.forEach((room) => {
       io.to(room).emit("refresh-room-users", getRoomUsers(room));
-      io.to(room).emit("room-user-left");
     });
   });
   //get users in a room
