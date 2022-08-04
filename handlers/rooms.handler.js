@@ -5,7 +5,7 @@ module.exports = function (io, socket) {
     const socketIds = Array.from(io.sockets.adapter.rooms.get(roomId));
     if (socketIds) {
       const users = socketIds.map((id) => io.sockets.sockets.get(id).user);
-      console.log(users);
+      // console.log(users);
       return users;
     } else {
       return [];
@@ -13,7 +13,6 @@ module.exports = function (io, socket) {
   };
   //join a room
   socket.on("join-room", ({ roomId }) => {
-    console.log("Room request");
     socket.join(roomId);
     socket.user.rooms.push(roomId);
     io.to(roomId).emit("refresh-room-users", getRoomUsers(roomId));
@@ -25,7 +24,7 @@ module.exports = function (io, socket) {
   });
   //leave a room
   socket.on("leave-room", (roomId) => {
-    console.log("Leaving Room of id " + roomId);
+    // console.log("Leaving Room of id " + roomId);
     socket.leave(roomId);
     socket.user.rooms = socket.user.rooms.filter((room) => room !== roomId);
     io.to(roomId).emit("refresh-room-users", getRoomUsers(roomId));
@@ -36,9 +35,9 @@ module.exports = function (io, socket) {
   });
   //send invite to a user
   socket.on("room-invite", ({ socketId, roomId }) => {
-    console.log("Room invite ");
-    console.log(socketId);
-    console.log(roomId);
+    // console.log("Room invite ");
+    // console.log(socketId);
+    // console.log(roomId);
     const socketToInvite = io.sockets.sockets.get(socketId);
     if (socketToInvite) {
       socketToInvite.join(roomId);
@@ -57,8 +56,8 @@ module.exports = function (io, socket) {
   });
 
   socket.on("disconnect", () => {
-    console.log("Leaving All Rooms");
-    console.log(socket.user.rooms);
+    // console.log("Leaving All Rooms");
+    // console.log(socket.user.rooms);
     const roomsToLeave = socket.user.rooms;
     roomsToLeave.forEach((room) => {
       io.to(room).emit("refresh-room-users", getRoomUsers(room));

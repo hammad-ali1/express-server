@@ -24,5 +24,10 @@ module.exports = function (io, socket) {
     io.to(roomId).emit("open-snackbar", { message });
   });
 
+  socket.on("update-roundLimit", ({ roomId, roundLimit }) => {
+    console.log("UPDATING ROUND LIMIT TO :  " + roundLimit);
+    console.log("SOCKET ID " + roomId);
+    io.to(roomId).emit("update-roundLimit", { roundLimit });
+  });
   return {};
 };
