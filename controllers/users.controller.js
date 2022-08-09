@@ -26,13 +26,11 @@ const addUser = asyncHandler(async (req, res) => {
         password: hashedPassword,
       });
       if (newUser) {
+        const createdUser = await User.findOne({ userid });
+        createdUser.token = generateToken(newUser._id);
         res.status(201).json({
           success: true,
-          user: {
-            userid: newUser.userid,
-            username: newUser.username,
-            token: generateToken(newUser._id),
-          },
+          user: createdUser,
         });
       } else {
         res.status(400).json({
@@ -81,8 +79,10 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const getUser = (req, res) => {
   const { _id, userid, username } = req.user;
+  // const token = generateToken(_id);
   res.status(200).json({
     success: true,
+    // user: { _id, userid, username, token },
     user: { _id, userid, username },
   });
 };

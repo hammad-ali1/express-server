@@ -34,9 +34,7 @@ const protect = asyncHandler(async (req, res, next) => {
 });
 
 const protectSocket = async (socket, next) => {
-  const token =
-    socket.handshake.auth.token ||
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyY2MwNmJjNDRkMDE4MmU1YjIzNjcyNCIsImlhdCI6MTY1NzkxMTMzMCwiZXhwIjoxNjU4Nzc1MzMwfQ.dyH2fV92WTHO5hQwmuUtczaQH8rPlKPQklTsii05vno";
+  const token = socket.handshake.auth.token;
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
