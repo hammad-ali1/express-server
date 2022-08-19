@@ -6,7 +6,7 @@ import User from "../models/users.model.js";
 // @desc    Creates a new user
 // @route   POST /api/users/
 // @access  Public
-export const addUser = asyncHandler(async (req, res) => {
+export const addUser = asyncHandler(async (req: any, res: any) => {
   const { userid, username, password } = req.body;
   try {
     if (userid && username && password) {
@@ -26,7 +26,7 @@ export const addUser = asyncHandler(async (req, res) => {
         password: hashedPassword,
       });
       if (newUser) {
-        const createdUser = await User.findOne({ userid });
+        const createdUser: any = await User.findOne({ userid });
         createdUser.token = generateToken(newUser._id);
         res.status(201).json({
           success: true,
@@ -77,7 +77,7 @@ export const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-export const getUser = (req, res) => {
+export const getUser = (req: any, res: any) => {
   const { _id, userid, username } = req.user;
   // const token = generateToken(_id);
   res.status(200).json({
@@ -87,6 +87,6 @@ export const getUser = (req, res) => {
   });
 };
 //generate JWT
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "10d" });
+const generateToken = (id: any) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET!, { expiresIn: "10d" });
 };

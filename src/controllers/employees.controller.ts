@@ -7,7 +7,7 @@ export const getEmployees = asyncHandler(async (req, res) => {
   try {
     const { name } = req.query;
     const employee = await Employee.find({
-      name: new RegExp(name),
+      name: new RegExp(name as string),
     });
     res.status(200).json({ success: true, employee });
   } catch (err) {

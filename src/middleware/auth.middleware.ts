@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import User from "../models/users.model.js";
 
-export const protect = asyncHandler(async (req, res, next) => {
+export const protect = asyncHandler(async (req: any, res: any, next) => {
   let token;
 
   if (
@@ -13,7 +13,7 @@ export const protect = asyncHandler(async (req, res, next) => {
       //get token from header
       token = req.headers.authorization.split(" ")[1]; //splits "Bearer token"
       //verify token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
 
       //get user from token
       req.user = await User.findById(decoded.id).select("-password");
@@ -33,20 +33,22 @@ export const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-export const protectSocket = async (socket, next) => {
+export const protectSocket = async (socket: any, next: any) => {
   const token = socket.handshake.auth.token;
   if (token) {
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
       //get user from token
-      const userFetched = await User.findById(decoded.id).select("-password");
+      const userFetched: any = await User.findById(decoded.id).select(
+        "-password"
+      );
       socket.user = { ...userFetched._doc };
       socket.user.socketId = socket.id;
       socket.user.rooms = [];
       return next();
     } catch (err) {
       console.log(err);
-      return next(new Error(err));
+      return next(new Error("error in protectSocket middleware"));
     }
   } else {
     return next(new Error("Token is missing"));

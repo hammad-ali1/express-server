@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Todo from "../models/todos.model.js";
 
-export const getTodos = asyncHandler(async (req, res) => {
+export const getTodos = asyncHandler(async (req: any, res: any) => {
   try {
     const userId = req.user._id;
     const todos = await Todo.find({ user: userId });
@@ -15,7 +15,7 @@ export const getTodos = asyncHandler(async (req, res) => {
   }
 });
 
-export const addTodo = asyncHandler(async (req, res) => {
+export const addTodo = asyncHandler(async (req: any, res: any) => {
   try {
     const user = req.user._id;
     const { task, title } = req.body;

@@ -1,6 +1,6 @@
-export default function (io, socket) {
+export default function (io: any, socket: any) {
   //get users in a specific room
-  const getRoomUsers = (roomId) => {
+  const getRoomUsers = (roomId: string) => {
     if (!roomId || !io.sockets.adapter.rooms.get(roomId)) return []; //if room id is invalid or no sockets exist
     const socketIds = Array.from(io.sockets.adapter.rooms.get(roomId));
     if (socketIds) {
@@ -12,29 +12,31 @@ export default function (io, socket) {
     }
   };
   //join a room
-  socket.on("join-room", ({ roomId }) => {
+  socket.on("join-room", ({ roomId }: any) => {
     socket.join(roomId);
     socket.user.rooms.push(roomId);
     io.to(roomId).emit("refresh-room-users", getRoomUsers(roomId));
     socket.emit("update-roomid", { roomId });
   });
   //reject room invite
-  socket.on("room-invite-reject", ({ roomId, msg }) => {
+  socket.on("room-invite-reject", ({ roomId, msg }: any) => {
     io.to(roomId).emit("room-invite-reject", { msg });
   });
   //leave a room
-  socket.on("leave-room", (roomId) => {
+  socket.on("leave-room", (roomId: string) => {
     // console.log("Leaving Room of id " + roomId);
     socket.leave(roomId);
-    socket.user.rooms = socket.user.rooms.filter((room) => room !== roomId);
+    socket.user.rooms = socket.user.rooms.filter(
+      (room: any) => room !== roomId
+    );
     io.to(roomId).emit("refresh-room-users", getRoomUsers(roomId));
   });
   //send message in a room
-  socket.on("room-message", ({ msg, roomId }) => {
+  socket.on("room-message", ({ msg, roomId }: any) => {
     io.to(roomId).emit("room-message", msg);
   });
   //send invite to a user
-  socket.on("room-invite", ({ socketId, roomId }) => {
+  socket.on("room-invite", ({ socketId, roomId }: any) => {
     // console.log("Room invite ");
     // console.log(socketId);
     // console.log(roomId);
@@ -47,11 +49,11 @@ export default function (io, socket) {
     }
   });
 
-  socket.on("open-main-snackbar", ({ roomId, message, buttons }) => {
+  socket.on("open-main-snackbar", ({ roomId, message, buttons }: any) => {
     io.to(roomId).emit("open-main-snackbar", { message, buttons });
   });
 
-  socket.on("clean-room", ({ roomId }) => {
+  socket.on("clean-room", ({ roomId }: any) => {
     io.in(roomId).socketsLeave(roomId);
   });
 
@@ -59,7 +61,7 @@ export default function (io, socket) {
     // console.log("Leaving All Rooms");
     // console.log(socket.user.rooms);
     const roomsToLeave = socket.user.rooms;
-    roomsToLeave.forEach((room) => {
+    roomsToLeave.forEach((room: any) => {
       io.to(room).emit("refresh-room-users", getRoomUsers(room));
     });
   });
