@@ -1,7 +1,7 @@
-const asyncHandler = require("express-async-handler");
-let Todo = require("../models/todos.model");
+import asyncHandler from "express-async-handler";
+import Todo from "../models/todos.model.js";
 
-const getTodos = asyncHandler(async (req, res) => {
+export const getTodos = asyncHandler(async (req, res) => {
   try {
     const userId = req.user._id;
     const todos = await Todo.find({ user: userId });
@@ -15,7 +15,7 @@ const getTodos = asyncHandler(async (req, res) => {
   }
 });
 
-const addTodo = asyncHandler(async (req, res) => {
+export const addTodo = asyncHandler(async (req, res) => {
   try {
     const user = req.user._id;
     const { task, title } = req.body;
@@ -43,7 +43,7 @@ const addTodo = asyncHandler(async (req, res) => {
   }
 });
 
-const deleteTodo = asyncHandler(async (req, res) => {
+export const deleteTodo = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
     const result = await Todo.deleteOne({ _id: id });
@@ -57,7 +57,7 @@ const deleteTodo = asyncHandler(async (req, res) => {
   }
 });
 
-const updateTodo = asyncHandler(async (req, res) => {
+export const updateTodo = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -71,10 +71,3 @@ const updateTodo = asyncHandler(async (req, res) => {
     });
   }
 });
-
-module.exports = {
-  getTodos,
-  addTodo,
-  deleteTodo,
-  updateTodo,
-};

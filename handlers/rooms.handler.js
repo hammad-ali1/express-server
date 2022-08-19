@@ -1,4 +1,4 @@
-module.exports = function (io, socket) {
+export default function (io, socket) {
   //get users in a specific room
   const getRoomUsers = (roomId) => {
     if (!roomId || !io.sockets.adapter.rooms.get(roomId)) return []; //if room id is invalid or no sockets exist
@@ -68,4 +68,4 @@ module.exports = function (io, socket) {
   //   console.log("Fetching users of room  " + roomId);
   //   io.to(roomId).emit("refresh-room-users", getRoomUsers(roomId));
   // });
-};
+}

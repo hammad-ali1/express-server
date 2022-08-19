@@ -1,16 +1,19 @@
-const router = require("express").Router();
-const {
+import { Router } from "express";
+
+const todoRouter = Router();
+import {
   getTodos,
   addTodo,
   deleteTodo,
   updateTodo,
-} = require("../controllers/todos.controller.js");
-const { protect } = require("../middleware/auth.middleware");
+} from "../controllers/todos.controller.js";
+import { protect } from "../middleware/auth.middleware.js";
 
-router.use(protect);
+todoRouter.use(protect);
 
-router.route("/").get(getTodos);
-router.route("/").post(addTodo);
-router.route("/:id").post(deleteTodo);
-router.route("/:id").put(updateTodo);
-module.exports = router;
+todoRouter.route("/").get(getTodos);
+todoRouter.route("/").post(addTodo);
+todoRouter.route("/:id").post(deleteTodo);
+todoRouter.route("/:id").put(updateTodo);
+
+export default todoRouter;

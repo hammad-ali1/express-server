@@ -1,8 +1,8 @@
-const jwt = require("jsonwebtoken");
-const asyncHandler = require("express-async-handler");
-const User = require("../models/users.model");
+import jwt from "jsonwebtoken";
+import asyncHandler from "express-async-handler";
+import User from "../models/users.model.js";
 
-const protect = asyncHandler(async (req, res, next) => {
+export const protect = asyncHandler(async (req, res, next) => {
   let token;
 
   if (
@@ -33,7 +33,7 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-const protectSocket = async (socket, next) => {
+export const protectSocket = async (socket, next) => {
   const token = socket.handshake.auth.token;
   if (token) {
     try {
@@ -53,4 +53,4 @@ const protectSocket = async (socket, next) => {
   }
 };
 
-module.exports = { protect, protectSocket };
+export default { protect, protectSocket };

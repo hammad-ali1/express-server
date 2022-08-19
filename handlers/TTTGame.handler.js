@@ -1,4 +1,4 @@
-module.exports = function (io, socket) {
+export default function (io, socket) {
   socket.on("update-marker", ({ marker, socketId }) => {
     io.to(socketId).emit("update-marker", { marker });
   });
@@ -9,4 +9,4 @@ module.exports = function (io, socket) {
     socket.to(roomId).emit("refresh-squares", { squares });
   });
   return {};
-};
+}

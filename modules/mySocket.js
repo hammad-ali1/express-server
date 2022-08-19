@@ -1,17 +1,20 @@
-const { protectSocket } = require("../middleware/auth.middleware");
+import { Server } from "socket.io";
+import { protectSocket } from "../middleware/auth.middleware.js";
+import roomsHandler from "../handlers/rooms.handler.js";
+import usersHandler from "../handlers/users.handler.js";
+import TTTGameHandler from "../handlers/TTTGame.handler.js";
+import GuessThiefHandler from "../handlers/GuessThief.handler.js";
 
-module.exports = function (server) {
-  const io = require("socket.io")(server, { cors: { origin: "*" } });
+export default function MySocket(server) {
+  const io = new Server(server, { cors: { origin: "*" } });
   //add middlware
   io.use(protectSocket);
 
   io.on("connection", (socket) => {
-    const { protectSocket } = require("../middleware/auth.middleware");
-
-    require("../handlers/rooms.handler")(io, socket);
-    const { getAllUsers } = require("../handlers/users.handler")(io, socket);
-    require("../handlers/TTTGame.handler")(io, socket);
-    require("../handlers/GuessThief.handler")(io, socket);
+    roomsHandler(io, socket);
+    const { getAllUsers } = usersHandler(io, socket);
+    TTTGameHandler(io, socket);
+    GuessThiefHandler(io, socket);
     io.emit("new-users", getAllUsers());
 
     //send message to all
@@ -26,4 +29,4 @@ module.exports = function (server) {
   return {
     io,
   };
-};
+}

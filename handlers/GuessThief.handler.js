@@ -1,4 +1,4 @@
-module.exports = function (io, socket) {
+export default function (io, socket) {
   socket.on("refresh-cards", ({ roomId, newCards }) => {
     io.to(roomId).emit("refresh-cards", { newCards });
   });
@@ -30,4 +30,4 @@ module.exports = function (io, socket) {
     socket.to(roomId).emit("update-roundLimit", { roundLimit });
   });
   return {};
-};
+}

@@ -1,15 +1,19 @@
-const express = require("express");
+import express from "express";
+import mongoose from "mongoose";
+import http from "http";
+import cors from "cors";
+import MySocket from "./modules/mySocket.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 const app = express();
-const mongoose = require("mongoose");
-const server = require("http").createServer(app);
-const cors = require("cors");
-const { io, getAllUsers, getRoomUsers } = require("./modules/mySocket")(server);
+const server = http.createServer(app);
+const { io, getAllUsers, getRoomUsers } = MySocket(server);
 
 //routers
-const todosRouter = require("./routes/todos.routes");
-const usersRouter = require("./routes/users.routes");
-const employeeRouter = require("./routes/employee.routes");
-require("dotenv").config();
+import todosRouter from "./routes/todos.routes.js";
+import usersRouter from "./routes/users.routes.js";
+import employeeRouter from "./routes/employee.routes.js";
 
 const port = process.env.PORT || 5000;
 

@@ -1,6 +1,8 @@
-const router = require("express").Router();
-const { getEmployees } = require("../controllers/employees.controller");
+import { Router } from "express";
+import { getEmployees } from "../controllers/employees.controller.js";
 
-router.route("/").get(getEmployees);
+const employeeRouter = Router();
 
-module.exports = router;
+employeeRouter.route("/").get(getEmployees);
+
+export default employeeRouter;

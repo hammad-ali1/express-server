@@ -1,8 +1,9 @@
-const asyncHandler = require("express-async-handler");
-let Employee = require("../models/employee.model");
+import asyncHandler from "express-async-handler";
+
+import Employee from "../models/employee.model.js";
 // import express, { Request, Response, NextFunction } from "express";
 
-const getEmployees = asyncHandler(async (req, res) => {
+export const getEmployees = asyncHandler(async (req, res) => {
   try {
     const { name } = req.query;
     const employee = await Employee.find({
@@ -17,5 +18,3 @@ const getEmployees = asyncHandler(async (req, res) => {
     });
   }
 });
-
-module.exports = { getEmployees };

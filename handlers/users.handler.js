@@ -1,4 +1,4 @@
-module.exports = function (io, socket) {
+export default function (io, socket) {
   //get all users online
   const getAllUsers = () => {
     console.log("Fetching all users");
@@ -30,4 +30,4 @@ module.exports = function (io, socket) {
     getAllUsers,
     isExists,
   };
-};
+}
