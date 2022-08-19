@@ -8,6 +8,7 @@ const { io, getAllUsers, getRoomUsers } = require("./modules/mySocket")(server);
 //routers
 const todosRouter = require("./routes/todos.routes");
 const usersRouter = require("./routes/users.routes");
+const employeeRouter = require("./routes/employee.routes");
 require("dotenv").config();
 
 const port = process.env.PORT || 5000;
@@ -33,6 +34,7 @@ connection.once("open", () => {
 //add routers
 app.use("/api/todos", todosRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/employee", employeeRouter);
 
 app.get("/api/online", (req, res) => {
   res.send(getAllUsers());
