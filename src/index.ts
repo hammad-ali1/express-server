@@ -32,7 +32,7 @@ connection.once("open", () => {
 //add routers
 app.use("/api/todos", todosRouter);
 app.use("/api/users", usersRouter);
-app.use("/api/employee", employeeRouter);
+app.use("/api/employees", employeeRouter);
 
 app.get("/", (req, res) => {
   res.send("Hammad's server");
