@@ -1,4 +1,5 @@
-export default function (io, socket) {
+//@ts-nocheck
+export default function (io: any, socket: any) {
   //get all users online
   const getAllUsers = () => {
     console.log("Fetching all users");

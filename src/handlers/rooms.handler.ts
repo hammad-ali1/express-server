@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 export default function (io: any, socket: any) {
   //get users in a specific room
   const getRoomUsers = (roomId: string) => {

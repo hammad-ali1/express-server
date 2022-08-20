@@ -1,3 +1,4 @@
+//@ts-nocheck
 export default function (io, socket) {
   socket.on("update-marker", ({ marker, socketId }) => {
     io.to(socketId).emit("update-marker", { marker });

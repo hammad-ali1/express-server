@@ -7,9 +7,11 @@ import dotenv from "dotenv";
 import todosRouter from "./routes/todos.routes.js";
 import usersRouter from "./routes/users.routes.js";
 import employeeRouter from "./routes/employee.routes.js";
+import mySocket from "./modules/mySocket.js";
 dotenv.config();
 const app = express();
 const server = http.createServer(app);
+mySocket(server);
 
 const port = process.env.PORT || 5000;
 

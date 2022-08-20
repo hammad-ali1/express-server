@@ -5,7 +5,7 @@ import usersHandler from "../handlers/users.handler.js";
 import TTTGameHandler from "../handlers/TTTGame.handler.js";
 import GuessThiefHandler from "../handlers/GuessThief.handler.js";
 
-export default function MySocket(server) {
+export default function MySocket(server: any) {
   const io = new Server(server, { cors: { origin: "*" } });
   //add middlware
   io.use(protectSocket);
@@ -22,6 +22,7 @@ export default function MySocket(server) {
       console.log("Message Received");
       console.log(data);
       console.log("By user ");
+      //@ts-ignore
       console.log(socket.user);
     });
   });

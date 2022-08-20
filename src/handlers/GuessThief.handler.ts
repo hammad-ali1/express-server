@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 export default function (io, socket) {
   socket.on("refresh-cards", ({ roomId, newCards }) => {
     io.to(roomId).emit("refresh-cards", { newCards });
