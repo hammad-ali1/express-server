@@ -4,10 +4,10 @@ import Employee from "../models/employee.model.js";
 export const getEmployees = asyncHandler(async (req, res) => {
   try {
     const { name } = req.query;
-    const employee = await Employee.find({
+    const employees = await Employee.find({
       name: new RegExp(name as string),
     });
-    res.status(200).json({ success: true, employee });
+    res.status(200).json({ success: true, employees });
   } catch (err) {
     console.log(err);
     res.status(400).json({

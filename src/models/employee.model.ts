@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const EmployeeSchema = new Schema({
+const EmployeeSchema = new Schema<GlobalTypes.Employee>({
   empId: { type: Number },
   imgURL: { type: String },
   namePrefix: { type: String },
