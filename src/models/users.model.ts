@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema(
+const userSchema = new Schema<GlobalTypes.User>(
   {
     userid: { type: String, required: true, unique: true },
     username: { type: String, required: true },

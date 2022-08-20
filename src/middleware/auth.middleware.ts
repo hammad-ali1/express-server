@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import User from "../models/users.model.js";
 
-export const protect = asyncHandler(async (req: any, res: any, next) => {
+export const protect = asyncHandler(async (req, res, next) => {
   let token;
 
   if (
@@ -16,7 +16,12 @@ export const protect = asyncHandler(async (req: any, res: any, next) => {
       const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
 
       //get user from token
-      req.user = await User.findById(decoded.id).select("-password");
+      const userFound = await User.findById(decoded.id).select("-password");
+      if (userFound) {
+        req.user = userFound;
+      } else {
+        throw new Error("User not found");
+      }
       next();
     } catch (err) {
       console.log(err);

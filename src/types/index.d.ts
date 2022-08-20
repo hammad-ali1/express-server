@@ -1,6 +1,13 @@
-type user = string;
+declare namespace GlobalTypes {
+  type User = {
+    userid: string;
+    username: string;
+    password: string;
+  };
+}
+
 declare namespace Express {
   interface Request {
-    tes: string;
+    user: GlobalTypes.User & { _id: import("mongoose").Types.ObjectId };
   }
 }

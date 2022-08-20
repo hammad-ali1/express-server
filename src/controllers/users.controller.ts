@@ -6,7 +6,7 @@ import User from "../models/users.model.js";
 // @desc    Creates a new user
 // @route   POST /api/users/
 // @access  Public
-export const addUser = asyncHandler(async (req: any, res: any) => {
+export const addUser = asyncHandler(async (req, res): Promise<any> => {
   const { userid, username, password } = req.body;
   try {
     if (userid && username && password) {
@@ -26,7 +26,8 @@ export const addUser = asyncHandler(async (req: any, res: any) => {
         password: hashedPassword,
       });
       if (newUser) {
-        const createdUser: any = await User.findOne({ userid });
+        const createdUser = await User.findOne({ userid });
+        //@ts-ignore
         createdUser.token = generateToken(newUser._id);
         res.status(201).json({
           success: true,
@@ -69,7 +70,7 @@ export const loginUser = asyncHandler(async (req, res) => {
         _id: user._id,
         userid: user.userid,
         username: user.username,
-        token: generateToken(user._id),
+        token: generateToken(user._id.toString()),
       },
     });
   } else {
@@ -77,7 +78,7 @@ export const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-export const getUser = (req: any, res: any) => {
+export const getUser = asyncHandler(async (req, res) => {
   const { _id, userid, username } = req.user;
   // const token = generateToken(_id);
   res.status(200).json({
@@ -85,8 +86,9 @@ export const getUser = (req: any, res: any) => {
     // user: { _id, userid, username, token },
     user: { _id, userid, username },
   });
-};
+});
+
 //generate JWT
-const generateToken = (id: any) => {
+const generateToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET!, { expiresIn: "10d" });
 };
